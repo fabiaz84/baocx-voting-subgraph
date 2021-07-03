@@ -1,6 +1,23 @@
-type Gravatar @entity {
+type HolderBao @entity {
   id: ID!
-  owner: Bytes!
-  displayName: String!
-  imageUrl: String!
+  address: Bytes!
+  balance: BigInt!
+}
+
+type HolderBaocx @entity {
+  id: ID!
+  address: Bytes!
+  balance: BigInt!
+}
+
+type HoldertBao @entity {
+  id: ID!
+  address: Bytes!
+  balance: BigInt!
+}
+
+type LockedBaocx @entity {
+  id: ID!
+  address: Bytes!
+  balance: BigInt!
 }

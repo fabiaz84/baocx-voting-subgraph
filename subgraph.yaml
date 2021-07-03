@@ -1,27 +1,70 @@
 specVersion: 0.0.2
-description: Gravatar for Ethereum
+description: Voting Baocx xDai
 repository: https://github.com/graphprotocol/example-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Gravity
-    network: mainnet
+    name: BaoToken
+    network: xdai
     source:
-      address: '0x2E645469f354BB4F5c8a05B3b30A929361cf77eC'
-      abi: Gravity
+      address: "0x82dFe19164729949fD66Da1a37BC70dD6c4746ce"
+      abi: BaoToken
+      startBlock: 14900000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Gravatar
+        - HolderBao
       abis:
-        - name: Gravity
-          file: ./abis/Gravity.json
+        - name: BaoToken
+          file: ./abis/BaoToken.json
       eventHandlers:
-        - event: NewGravatar(uint256,address,string,string)
-          handler: handleNewGravatar
-        - event: UpdatedGravatar(uint256,address,string,string)
-          handler: handleUpdatedGravatar
-      file: ./src/mapping.ts
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransferBao
+      file: ./src/holdersBao.ts  
+  - kind: ethereum/contract
+    name: BaocxToken
+    network: xdai
+    source:
+      address: "0xe0d0b1DBbCF3dd5CAc67edaf9243863Fd70745DA"
+      abi: BaocxToken
+      startBlock: 14900000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - HolderBaocx
+        - LockedBaocx
+      abis:
+        - name: BaocxToken
+          file: ./abis/BaocxToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransferBaocx
+      callHandlers:
+        - function: lockOf(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleLockOf
+      file: ./src/holdersBaocx.ts  
+  - kind: ethereum/contract
+    name: tBaoToken
+    network: xdai
+    source:
+      address: "0xd83E87B585656573e6BC7A9A93776C76e479B8d6"
+      abi: tBaoToken
+      startBlock: 16000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - HoldertBao
+      abis:
+        - name: tBaoToken
+          file: ./abis/tBaoToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfertBao
+      file: ./src/holderstBao.ts
