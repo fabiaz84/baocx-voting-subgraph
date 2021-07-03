@@ -20,4 +20,5 @@ type LockedBaocx @entity {
   id: ID!
   address: Bytes!
   balance: BigInt!
+  lockOf: BigInt!
 }

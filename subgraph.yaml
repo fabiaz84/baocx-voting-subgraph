@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 description: Voting Baocx xDai
-repository: https://github.com/graphprotocol/example-subgraph
+repository: https://github.com/fabiaz84/baocx-voting-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
@@ -37,16 +37,12 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - HolderBaocx
-        - LockedBaocx
       abis:
         - name: BaocxToken
           file: ./abis/BaocxToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransferBaocx
-      callHandlers:
-        - function: lockOf(indexed address,indexed address,indexed uint256,uint256)
-          handler: handleLockOf
       file: ./src/holdersBaocx.ts  
   - kind: ethereum/contract
     name: tBaoToken
