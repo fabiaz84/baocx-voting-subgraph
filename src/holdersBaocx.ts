@@ -1,6 +1,6 @@
   
-import { BigInt, Address, store } from '@graphprotocol/graph-ts';
-import { Transfer } from '../generated/BaocxToken/BaocxToken';
+import { BigInt, Address, store, log } from '@graphprotocol/graph-ts';
+import { Transfer, BaocxToken } from '../generated/BaocxToken/BaocxToken';
 import { HolderBaocx, LockedBaocx } from '../generated/schema';
 
 function updateBalance(tokenAddress: Address, holderAddress: Address, value: BigInt, increase: boolean): void {
@@ -20,18 +20,25 @@ function updateBalance(tokenAddress: Address, holderAddress: Address, value: Big
   }
 }
 
+export function fetchLockBalance(tokenAddress: Address, holderAddress: Address, value: BigInt, increase: boolean): void {
+  if (holderAddress.toHexString() == '0x0000000000000000000000000000000000000000') return;
+  let id = tokenAddress.toHex() + '-' + holderAddress.toHex();
+  let holder = LockedBaocx.load(id);
+  if (holder == null) {
+    holder = new LockedBaocx(id);
+    holder.address = holderAddress;
+    holder.lockOfResult = BigInt.fromI32(0);
+  }
+  let lockedBaoCx = BaocxToken.bind(holderaddress)
+  let lockOfResult = lockedBaoCx.try_lockOf()
+  if (lockOfResult.reverted) {
+    log.info("No locked Baocx", [])
+  } else {
+    let owner = lockOfResult.value
+  }
+}
+
 export function handleTransferBaocx(event: Transfer): void {
   updateBalance(event.address, event.params.from, event.params.value, false);
   updateBalance(event.address, event.params.to, event.params.value, true);
-}
-
-export function fetchLockOf(lockedHolderAddress: Address): BigInt {
-  if (lockedHolderAddress.toHexString() == '0x0000000000000000000000000000000000000000') return;
-  let id = tokenAddress.toHex() + '-' + lockedHolderAddress.toHex();
-  let lockedHolder = LockedBaocx.load(id);
-  if (lockedHolder == null) {
-    lockedHolder = new LockedBaocx(id);
-    lockedHolder.address = lockedHolderAddress;
-    lockedHolder.try_lockOf = BigInt.fromI32(0);
-  }
 }

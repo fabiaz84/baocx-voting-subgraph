@@ -2,7 +2,7 @@ specVersion: 0.0.2
 description: Voting Baocx xDai
 repository: https://github.com/fabiaz84/baocx-voting-subgraph
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: BaoToken
@@ -19,11 +19,11 @@ dataSources:
         - HolderBao
       abis:
         - name: BaoToken
-          file: ./abis/BaoToken.json
+          file: BaoToken\abis\BaoToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransferBao
-      file: ./src/holdersBao.ts  
+      file: BaoToken\BaoToken.wasm
   - kind: ethereum/contract
     name: BaocxToken
     network: xdai
@@ -37,14 +37,13 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - HolderBaocx
-        - LockedBaocx
       abis:
         - name: BaocxToken
-          file: ./abis/BaocxToken.json
+          file: BaocxToken\abis\BaocxToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransferBaocx
-      file: ./src/holdersBaocx.ts  
+      file: BaocxToken\BaocxToken.wasm
   - kind: ethereum/contract
     name: tBaoToken
     network: xdai
@@ -60,8 +59,8 @@ dataSources:
         - HoldertBao
       abis:
         - name: tBaoToken
-          file: ./abis/tBaoToken.json
+          file: tBaoToken\abis\tBaoToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfertBao
-      file: ./src/holderstBao.ts
+      file: tBaoToken\tBaoToken.wasm
