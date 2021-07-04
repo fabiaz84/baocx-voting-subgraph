@@ -27,14 +27,14 @@ export function fetchLockBalance(tokenAddress: Address, holderAddress: Address, 
   if (holder == null) {
     holder = new LockedBaocx(id);
     holder.address = holderAddress;
-    holder.lockOfResult = BigInt.fromI32(0);
+    holder.lockOf = BigInt.fromI32(0);
   }
-  let lockedBaoCx = BaocxToken.bind(holderaddress)
-  let lockOfResult = lockedBaoCx.try_lockOf()
-  if (lockOfResult.reverted) {
+  let lockedBaoCx = BaocxToken.bind(holderAddress)
+  let lockOf = lockedBaoCx.try_lockOf(holderAddress)
+  if (lockOf.reverted) {
     log.info("No locked Baocx", [])
   } else {
-    let owner = lockOfResult.value
+    let owner = lockOf.value
   }
 }
 
