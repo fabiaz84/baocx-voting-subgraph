@@ -29,7 +29,7 @@ export function fetchLockBalance(tokenAddress: Address, holderAddress: Address, 
     holder.address = holderAddress;
     holder.lockOf = BigInt.fromI32(0);
   }
-  let lockedBaoCx = BaocxToken.bind(holderAddress)
+  let lockedBaoCx = BaocxToken.bind(tokenAddress)
   let lockOf = lockedBaoCx.try_lockOf(holderAddress)
   if (lockOf.reverted) {
     log.info("No locked Baocx", [])

@@ -37,6 +37,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - HolderBaocx
+        - LockedBaocx
       abis:
         - name: BaocxToken
           file: BaocxToken\abis\BaocxToken.json
