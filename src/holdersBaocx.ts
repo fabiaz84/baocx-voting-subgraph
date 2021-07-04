@@ -1,6 +1,6 @@
   
-import { BigInt, Address, store, log } from '@graphprotocol/graph-ts';
-import { Transfer, BaocxToken } from '../generated/BaocxToken/BaocxToken';
+import { BigInt, Address, store } from '@graphprotocol/graph-ts';
+import { Transfer, Lock } from '../generated/BaocxToken/BaocxToken';
 import { HolderBaocx, LockedBaocx } from '../generated/schema';
 
 function updateBalance(tokenAddress: Address, holderAddress: Address, value: BigInt, increase: boolean): void {
@@ -20,25 +20,28 @@ function updateBalance(tokenAddress: Address, holderAddress: Address, value: Big
   }
 }
 
-export function fetchLockBalance(tokenAddress: Address, holderAddress: Address, value: BigInt, increase: boolean): void {
+function updateLockBalance(tokenAddress: Address, holderAddress: Address, value: BigInt, increase: boolean): void {
   if (holderAddress.toHexString() == '0x0000000000000000000000000000000000000000') return;
   let id = tokenAddress.toHex() + '-' + holderAddress.toHex();
   let holder = LockedBaocx.load(id);
   if (holder == null) {
     holder = new LockedBaocx(id);
     holder.address = holderAddress;
-    holder.lockOf = BigInt.fromI32(0);
+    holder.lock = BigInt.fromI32(0);
   }
-  let lockedBaoCx = BaocxToken.bind(tokenAddress)
-  let lockOf = lockedBaoCx.try_lockOf(holderAddress)
-  if (lockOf.reverted) {
-    log.info("No locked Baocx", [])
+  holder.lock = increase ? holder.lock.plus(value) : holder.lock.minus(value);
+  if (holder.lock.isZero()) {
+    store.remove('LockedBaocx', id);
   } else {
-    let owner = lockOf.value
+    holder.save();
   }
 }
 
-export function handleTransferBaocx(event: Transfer): void {
+ export function handleTransferBaocx(event: Transfer): void {
   updateBalance(event.address, event.params.from, event.params.value, false);
   updateBalance(event.address, event.params.to, event.params.value, true);
+}
+
+export function handleLockBaocx(event: Lock): void {
+  updateLockBalance(event.address, event.params.to, event.params.value, true);
 }

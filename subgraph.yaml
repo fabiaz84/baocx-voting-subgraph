@@ -44,6 +44,8 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransferBaocx
+        - event: Lock(indexed address,uint256)
+          handler: handleLockBaocx
       file: ./src/holdersBaocx.ts  
   - kind: ethereum/contract
     name: tBaoToken

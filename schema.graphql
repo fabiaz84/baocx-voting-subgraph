@@ -10,15 +10,14 @@ type HolderBaocx @entity {
   balance: BigInt!
 }
 
+type LockedBaocx @entity {
+  id: ID!
+  address: Bytes!
+  lock: BigInt!
+}
+
 type HoldertBao @entity {
   id: ID!
   address: Bytes!
   balance: BigInt!
-}
-
-type LockedBaocx @entity {
-  id: ID!
-  address: Bytes!
-  balance: BigInt!
-  lockOf: BigInt!
 }

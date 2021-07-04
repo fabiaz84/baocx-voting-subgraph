@@ -110,6 +110,55 @@ export class HolderBaocx extends Entity {
   }
 }
 
+export class LockedBaocx extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save LockedBaocx entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save LockedBaocx entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("LockedBaocx", id.toString(), this);
+  }
+
+  static load(id: string): LockedBaocx | null {
+    return store.get("LockedBaocx", id) as LockedBaocx | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get address(): Bytes {
+    let value = this.get("address");
+    return value.toBytes();
+  }
+
+  set address(value: Bytes) {
+    this.set("address", Value.fromBytes(value));
+  }
+
+  get lock(): BigInt {
+    let value = this.get("lock");
+    return value.toBigInt();
+  }
+
+  set lock(value: BigInt) {
+    this.set("lock", Value.fromBigInt(value));
+  }
+}
+
 export class HoldertBao extends Entity {
   constructor(id: string) {
     super();
@@ -156,63 +205,5 @@ export class HoldertBao extends Entity {
 
   set balance(value: BigInt) {
     this.set("balance", Value.fromBigInt(value));
-  }
-}
-
-export class LockedBaocx extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id !== null, "Cannot save LockedBaocx entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save LockedBaocx entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("LockedBaocx", id.toString(), this);
-  }
-
-  static load(id: string): LockedBaocx | null {
-    return store.get("LockedBaocx", id) as LockedBaocx | null;
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get address(): Bytes {
-    let value = this.get("address");
-    return value.toBytes();
-  }
-
-  set address(value: Bytes) {
-    this.set("address", Value.fromBytes(value));
-  }
-
-  get balance(): BigInt {
-    let value = this.get("balance");
-    return value.toBigInt();
-  }
-
-  set balance(value: BigInt) {
-    this.set("balance", Value.fromBigInt(value));
-  }
-
-  get lockOf(): BigInt {
-    let value = this.get("lockOf");
-    return value.toBigInt();
-  }
-
-  set lockOf(value: BigInt) {
-    this.set("lockOf", Value.fromBigInt(value));
   }
 }
