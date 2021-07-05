@@ -27,10 +27,10 @@ function updateLockBalance(tokenAddress: Address, holderAddress: Address, value:
   if (holder == null) {
     holder = new LockedBaocx(id);
     holder.address = holderAddress;
-    holder.lock = BigInt.fromI32(0);
+    holder.balance = BigInt.fromI32(0);
   }
-  holder.lock = increase ? holder.lock.plus(value) : holder.lock.minus(value);
-  if (holder.lock.isZero()) {
+  holder.balance = increase ? holder.balance.plus(value) : holder.balance.minus(value);
+  if (holder.balance.isZero()) {
     store.remove('LockedBaocx', id);
   } else {
     holder.save();

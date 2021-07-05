@@ -149,13 +149,13 @@ export class LockedBaocx extends Entity {
     this.set("address", Value.fromBytes(value));
   }
 
-  get lock(): BigInt {
-    let value = this.get("lock");
+  get balance(): BigInt {
+    let value = this.get("balance");
     return value.toBigInt();
   }
 
-  set lock(value: BigInt) {
-    this.set("lock", Value.fromBigInt(value));
+  set balance(value: BigInt) {
+    this.set("balance", Value.fromBigInt(value));
   }
 }
 
