@@ -3,6 +3,9 @@ import { BigInt, Address, store } from '@graphprotocol/graph-ts';
 import { Transfer } from '../generated/tBaoToken/tBaoToken';
 import { HoldertBao } from '../generated/schema';
 
+export const BIG_INT_ONE_HUNDRED = BigInt.fromI32(100);
+export const BIG_INT_TBAO_RATIO = BigInt.fromI32(111177);
+
 function updateBalance(tokenAddress: Address, holderAddress: Address, value: BigInt, increase: boolean): void {
   if (holderAddress.toHexString() == '0x0000000000000000000000000000000000000000') return;
   let id = tokenAddress.toHex() + '-' + holderAddress.toHex();
@@ -21,6 +24,6 @@ function updateBalance(tokenAddress: Address, holderAddress: Address, value: Big
 }
 
 export function handleTransfertBao(event: Transfer): void {
-  updateBalance(event.address, event.params.from, event.params.value, false);
-  updateBalance(event.address, event.params.to, event.params.value, true);
+  updateBalance(event.address, event.params.from, event.params.value.times(BIG_INT_TBAO_RATIO).div(BIG_INT_ONE_HUNDRED), false);
+  updateBalance(event.address, event.params.to, event.params.value.times(BIG_INT_TBAO_RATIO).div(BIG_INT_ONE_HUNDRED), true);
 }
