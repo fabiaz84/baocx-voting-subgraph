@@ -3,21 +3,3 @@ type HolderBao @entity {
   address: Bytes!
   balance: BigInt!
 }
-
-type HolderBaocx @entity {
-  id: ID!
-  address: Bytes!
-  balance: BigInt!
-}
-
-type LockedBaocx @entity {
-  id: ID!
-  address: Bytes!
-  balance: BigInt!
-}
-
-type HoldertBao @entity {
-  id: ID!
-  address: Bytes!
-  balance: BigInt!
-}

@@ -1,16 +1,16 @@
 specVersion: 0.0.2
-description: Voting Baocx xDai
+description: BaoToken
 repository: https://github.com/fabiaz84/baocx-voting-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: BaoToken
-    network: xdai
+    network: mainnet
     source:
-      address: "0x82dFe19164729949fD66Da1a37BC70dD6c4746ce"
+      address: "0x374CB8C27130E2c9E04F44303f3c8351B9De61C1"
       abi: BaoToken
-      startBlock: 14136083
+      startBlock: 11368530
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -23,47 +23,4 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransferBao
-      file: ./src/holdersBao.ts  
-  - kind: ethereum/contract
-    name: BaocxToken
-    network: xdai
-    source:
-      address: "0xe0d0b1DBbCF3dd5CAc67edaf9243863Fd70745DA"
-      abi: BaocxToken
-      startBlock: 14812100
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      entities:
-        - HolderBaocx
-        - LockedBaocx
-      abis:
-        - name: BaocxToken
-          file: ./abis/BaocxToken.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransferBaocx
-        - event: Lock(indexed address,uint256)
-          handler: handleLockBaocx
-      file: ./src/holdersBaocx.ts  
-  - kind: ethereum/contract
-    name: tBaoToken
-    network: xdai
-    source:
-      address: "0xd83E87B585656573e6BC7A9A93776C76e479B8d6"
-      abi: tBaoToken
-      startBlock: 16286635
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      entities:
-        - HoldertBao
-      abis:
-        - name: tBaoToken
-          file: ./abis/tBaoToken.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfertBao
-      file: ./src/holderstBao.ts
+      file: ./src/holdersBao.ts
